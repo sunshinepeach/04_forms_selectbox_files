@@ -1,22 +1,29 @@
 <?php ?>
 <?php 
-//        0   1            2             3             4
-$menus = ['','keine', 'Frühstück', 'Halbpension',
-    'Vollpension'];
-$menu = filter_input(INPUT_GET, 'menu',
-        FILTER_VALIDATE_INT);
+//             0  1        2             3             4
+$breakfast = ['','Ei', 'Bratwurst', 'Cornflakes',
+    'Kaviar'];
+// filter_input
+$selection = filter_input(INPUT_GET, 'selection',
+        FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY);
 
 /************* Funktion ****************/
+/*
 function checked($a, $b) {
-    return ($a === $b) ? 'checked' : ''; 
+    return ($a === $b) ? ' checked ' : ''; 
 }
-
+*/
+function checkedMultiple($value, $array) {
+  if( is_array($array) ) {
+     return ( in_array($value, $array)) ? ' checked' : '';     
+  }
+}
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>PHP 04 MULTIPLE</title>
+        <title>PHP 04 RADIO</title>
         <meta name="viewport" content="width-divice-width, initial-scale=1.0">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="assets/css/styles.css" rel="stylesheet" type="text/css"/>
@@ -28,22 +35,21 @@ function checked($a, $b) {
         <div class="container">
             <form>
                 <fieldset>
-                    <legend>Verpflegung</legend>
+                    <legend>Frühstück</legend>
                     <!-- Schleife -->
-                    <?php for ($i = 0; $i < count($menus); $i++) : ?>
-                        <?php if ($i != 0) : ?>
-                            <div class="form-check form-check-inline">
-                                <input <?php echo checked($menu, $i); ?>
-                                    class="form-check-input" 
-                                    type="radio" name="menu"
-                                    value="<?php  echo $i; ?>"
-                                    id="menu<?php echo $i; ?>">
-                                <label class="form-check-label" 
-                                    for="menu<?php echo $i; ?>"><?php
-                                    echo $menus[$i];
-                                ?></label>
-                            </div>
-                        <?php endif; ?>
+                    <?php for ($i = 1; $i < count($breakfast); $i++) : ?>
+                        <div class="form-check form-check-inline">
+                            <input <?php 
+                                echo checkedMultiple($i, $selection); ?> 
+                                class="form-check-input" 
+                                type="checkbox" name="selection[]"
+                                value="<?php  echo $i; ?>"
+                                id="selection<?php echo $i; ?>">
+                            <label class="form-check-label" 
+                                for="selection<?php echo $i; ?>"><?php
+                                echo $breakfast[$i];
+                            ?></label>
+                        </div>
                     <!-- Schleifenende -->
                     <?php endfor; ?>
                     
@@ -85,7 +91,7 @@ function checked($a, $b) {
         <h4>Ausgabe</h4>
         <?php
         // print_r();
-        // var_dump();
+         var_dump($selection);
         ?>
     </body>
 </html>
