@@ -22,6 +22,13 @@ $airports = [];
 $airports[] = ['TXL' => 'Berlin - Tegel']; 
 $airports[] = ['SXF' => 'Berlin - Schönefeld'];
 
+$arportsName = [];
+$airportsName['TXL'] = 'Berlin - Tegel';
+$airportsName['SXF'] = 'Berlin - Schönefeld';
+
+
+
+
 /***************** Funktion ****************/
 function selected($a, $b){
     // Typprüfung mit ===
@@ -123,7 +130,7 @@ function selected($a, $b){
                 <tr>
                     <td><?php echo $firstname; ?></td>
                     <td><?php echo $lastname; ?></td>                    
-                    <td><?php echo $airportStart; ?></td>                    
+                    <td><?php echo $airportsName[$airportStart]; ?></td>                    
                 </tr>
             </tbody>
                                       
