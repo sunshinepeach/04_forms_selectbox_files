@@ -1,6 +1,23 @@
-<?php ?>
 <?php 
-
+if (isset($_FILES['uploadFile'])) {
+    $imageTypes = ['', '.gif', '.jpeg', '.png'];
+    $src = $_FILES['uploadFile']['tmp_name'];
+    $imgInfo = getimagesize($src);
+    $imgType = $imgInfo[2]; // 1 (gif)  2 (jpeg)  3 (png)
+    if ($imgType >= 1 && $imgType <= 3){
+        
+        //$dst = './uploads/'.$_FILES['uploadFile']['name'];
+        //$dst = './uploads/'.$imageTypes[$imgType];
+        
+        $folder = './uploads/';
+        $filename = uniqid('634287', true); // php Funktion
+        $filetype = $imageTypes[$imgType];
+        
+        $dst = $folder.$filename.$filetype;
+        
+        move_uploaded_file($src, $dst);        
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,7 +52,10 @@
         <h4>Ausgabe</h4>
         <?php
         //print_r();
-        var_dump($_FILES);
+        //var_dump($_FILES);
+        //echo mime_content_type($dst);
+        $f = getimagesize($dst);
+        var_dump($f);
         ?>
     </body>
 </html>
